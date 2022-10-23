@@ -1,20 +1,16 @@
 import React, {useState} from 'react';
 import './index.css';
-//import Button from './component/Button'
+import MyButton from './component/Button'
 import BodyfatCalculator from './bodyfat-calculator/BodyfatCalculator';
 import OneRepMaxCalculator from './one-rep-max-calculator/OneRepMaxCalculator';
 import ExerciseSelector from './exercise-selector/ExerciseSelector';
 
-//import logo from "./logo.svg";
-import "@aws-amplify/ui-react/styles.css";
-import {
-    withAuthenticator,
-    Button,
-    Heading,
-    Image,
-    View,
-    Card,
-  } from "@aws-amplify/ui-react";
+import { Amplify, View, Card, Heading, Button } from 'aws-amplify'
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+
+import awsExports from './aws-exports'
+Amplify.configure(awsExports);
 
 function AppSelection({index}) {
     switch(index) {
@@ -28,19 +24,19 @@ function AppSelection({index}) {
             return <></>;
     }
 }
+
 function Login({ signOut }) {
   return (
-    <View className="App">
-      <Card>
-        <Heading level={1}>We now have Auth!</Heading>
-      </Card>
-      <Button onClick={signOut}>Sign Out</Button>
-    </View>
+    <Authenticator>
+        <View className="App">
+        <Card>
+            <Heading level={1}>We now have Auth!</Heading>
+        </Card>
+        <Button onClick={signOut}>Sign Out</Button>
+        </View>
+    </Authenticator>
   );
 }
-
-
-
 
 function Homepage() {
     const [appIndex, setAppIndex] = useState('');
@@ -53,7 +49,7 @@ function Homepage() {
                 <div>
                     {appList.map(
                         (appName) => 
-                            <Button 
+                            <MyButton 
                                 key={appName}
                                 value={(appName == appIndex) ? '' : appName}
                                 label={appName} 
@@ -69,4 +65,4 @@ function Homepage() {
     );
 }
 
-export default withAuthenticator(Homepage);
+export default Homepage;
