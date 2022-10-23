@@ -1,9 +1,20 @@
 import React, {useState} from 'react';
 import './index.css';
-import Button from './component/Button'
+//import Button from './component/Button'
 import BodyfatCalculator from './bodyfat-calculator/BodyfatCalculator';
 import OneRepMaxCalculator from './one-rep-max-calculator/OneRepMaxCalculator';
 import ExerciseSelector from './exercise-selector/ExerciseSelector';
+
+//import logo from "./logo.svg";
+import "@aws-amplify/ui-react/styles.css";
+import {
+    withAuthenticator,
+    Button,
+    Heading,
+    Image,
+    View,
+    Card,
+  } from "@aws-amplify/ui-react";
 
 function AppSelection({index}) {
     switch(index) {
@@ -17,8 +28,21 @@ function AppSelection({index}) {
             return <></>;
     }
 }
+function Login({ signOut }) {
+  return (
+    <View className="App">
+      <Card>
+        <Heading level={1}>We now have Auth!</Heading>
+      </Card>
+      <Button onClick={signOut}>Sign Out</Button>
+    </View>
+  );
+}
 
-export default () => {
+
+
+
+function Homepage() {
     const [appIndex, setAppIndex] = useState('');
     const appList = ["Bodyfat Calculator", "Rep Max Calculator", "Exercise Selector"];
     return (
@@ -40,6 +64,9 @@ export default () => {
             </header>
 
             <AppSelection index={appIndex}/>
+            <Login />
         </div>
     );
 }
+
+export default withAuthenticator(Homepage);
